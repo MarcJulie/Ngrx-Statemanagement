@@ -15,12 +15,13 @@ import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import { addEmployee, getEmployee, updateEmployee } from '../../Store/Employee.Action';
 import { selectEmployee } from '../../Store/Employee.Selector';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-employee',
   imports: [MatCardModule, ReactiveFormsModule, MatFormFieldModule,
     MatInputModule, MatButtonModule, MatSelectModule, MatDatepickerModule,
-    MatIconModule
+    MatIconModule,CommonModule
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-employee.component.html',
@@ -111,6 +112,9 @@ export class AddEmployeeComponent implements OnInit {
       this.closepopup();
 
     }
+
+    if(this.empForm.invalid)
+    this.empForm.markAllAsTouched();
   }
 
   closepopup() {

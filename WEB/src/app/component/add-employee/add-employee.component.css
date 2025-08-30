@@ -9,3 +9,8 @@
 .mdc-button{
     margin: 2px;
 }
+
+.mat-mdc-card
+{
+    box-shadow: none;
+}

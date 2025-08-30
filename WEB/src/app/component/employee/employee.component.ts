@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -11,11 +11,12 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { deleteEmployee, loadEmployee } from '../../Store/Employee.Action';
 import { getEmpList } from '../../Store/Employee.Selector';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-employee',
   imports: [MatCardModule, MatButtonModule, MatDialogModule,
-    MatTableModule, CommonModule
+    MatTableModule, CommonModule,MatPaginator 
   ],
   templateUrl: './employee.component.html',
   styleUrl: './employee.component.css'
@@ -23,9 +24,12 @@ import { getEmpList } from '../../Store/Employee.Selector';
 export class EmployeeComponent implements OnInit, OnDestroy {
 
   empList: Employee[] = [];
+  empCount!:number;
   dataSource!: MatTableDataSource<Employee>;
   displayedColumns: string[] = ['id', 'name', 'role', 'doj', 'salary', 'action']
   subscription = new Subscription();
+   private themeKey = 'theme';
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   // constructor(private dialog: MatDialog, private service: EmployeeService) {
 
@@ -39,6 +43,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     this.GetallEmployee();
+     localStorage.setItem('theme', 'dark');
   }
 
   GetallEmployee() {
@@ -50,7 +55,9 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     this.store.dispatch(loadEmployee())
     this.store.select(getEmpList).subscribe(item => {
       this.empList = item;
+      this.empCount = item.length;
       this.dataSource = new MatTableDataSource(this.empList);
+      this.dataSource.paginator = this.paginator;
     })
   }
 
@@ -75,8 +82,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   openpopup(empid: number) {
     this.dialog.open(AddEmployeeComponent, {
       width: '50%',
-      exitAnimationDuration: '1000ms',
-      enterAnimationDuration: '1000ms',
+      exitAnimationDuration: '100ms',
+      enterAnimationDuration: '100ms',
       data: {
         'code': empid
       }
