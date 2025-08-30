@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "students",
+  database: "employees",
 });
 
 app.post("/add_user", (req, res) => {
