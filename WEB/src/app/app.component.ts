@@ -17,14 +17,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements AfterViewInit {
-
-  //@ViewChild('name') nameElement!: ElementRef;
-  // @ViewChild(ChildComponent) child!: ChildComponent;
-  //@ViewChildren(ChildComponent) childs!: QueryList<ChildComponent>;
-
-  // nameElement = viewChild.required<ElementRef>('name');
-  // child = viewChild.required<ChildComponent>(ChildComponent);
-  // childs = viewChildren(ChildComponent);
   
   readonly nameElement = viewChild.required<ElementRef>('name');
   readonly child = viewChild.required(ChildComponent);

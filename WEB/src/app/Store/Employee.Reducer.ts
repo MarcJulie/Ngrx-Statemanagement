@@ -34,24 +34,31 @@ const _employeeReducer = createReducer(employeeState,
             errormessage: ''
         }
     }),
+
     on(updateEmployeeSuc, (state, action) => {
-        const _newdata = state.list.map(o => {
-            return o.id === action.data.id ? action.data : o
-        })
+        const index = state.list.findIndex(o => o.id === action.data.id);
+
+        if (index === -1) return state; 
+
+        const updatedList = [...state.list];
+        updatedList[index] = action.data;
+
         return {
             ...state,
-            list: _newdata,
+            list: updatedList,
             errormessage: ''
-        }
+        };
     }),
+
+
     on(getEmployee, (state, action) => {
-        let _newdata = state.list.find(o =>o.id===action.empId);
-        if(_newdata==null){
-            _newdata=state.empobj;
+        let _newdata = state.list.find(o => o.id === action.empId);
+        if (_newdata == null) {
+            _newdata = state.empobj;
         }
         return {
             ...state,
-            empobj:_newdata
+            empobj: _newdata
         }
     })
 );
